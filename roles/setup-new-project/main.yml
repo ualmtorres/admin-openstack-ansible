@@ -1,0 +1,51 @@
+- name: Create a project
+  os_project:
+    cloud: lowcost
+    state: present
+    name: {{ project }}
+    description: "Proyecto de " {{ project }}
+    enabled: True
+
+- name: Grant admin role on user admin in the project
+  os_user_role:
+    cloud: lowcost
+    user: admin
+    role: admin
+    project: {{ project }}
+
+- name: Create the user for the project
+  os_user:
+    cloud: lowcost
+    state: present
+    name: {{ project }}
+    password: {{ password }}
+    update_password: on_create
+    email: {{ email }}
+    default_project: {{ project }}
+
+- name: Create the network of the project
+  os_network:
+    cloud: lowcost
+    state: present
+    name: {{ project }}-net
+    project: {{ project }}
+
+- name: Create the subnet
+  os_subnet:
+    state: present
+    network_name: {{ project }}-net
+    name: {{ project }}-subnet
+    cidr: 10.0.0.0/24
+    dns_nameservers:
+       - 150.214.156.2
+       - 8.8.8.8
+    project: {{ project }}
+
+- name: Create the router connecting the network and the subnet
+  os_router:
+    cloud: lowcost
+    state: present
+    name: {{ project }}-router
+    network: {{ project }}-net
+    interfaces:
+      - {{ project }}-subnet
