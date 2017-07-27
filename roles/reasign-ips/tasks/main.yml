@@ -1,0 +1,2 @@
+- name: Reassign IPs
+  shell: openstack --os-cloud=lowcost floating ip create --port {{ item.port }} --floating-ip-address {{ item.floating_ip }} --project {{ item.name }}  ext-net

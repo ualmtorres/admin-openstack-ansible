@@ -1,0 +1,9 @@
+- name: Create snapshots
+  shell: openstack --os-cloud=lowcost server image create --name {{ item.name }} {{ item.instance_uuid }}
+  with_items:
+    - "{{ instance_uuid }}"
+
+- name: Change snapshot properties
+  shell: openstack --os-cloud=lowcost image set --project {{ item.project }} {{ item.name }}
+  with_items:
+    - "{{ instance_uuid }}"

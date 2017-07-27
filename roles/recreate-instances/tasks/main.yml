@@ -1,0 +1,12 @@
+- name: Create instances
+  os_server:
+    state=present
+    cloud={{ item.name }}
+    name={{ item.name }}
+    image={{ item.name }}
+    flavor=tiny
+    key_name={{ item.key_name }}
+    network="{{ item.name }}"-net
+  with_items:
+    - "{{ instance_uuid }}"
+

@@ -1,0 +1,39 @@
+- name: Create projects
+  os_project:
+    cloud=lowcost
+    state=present
+    name={{ item.user }}
+    description="Proyecto de {{ item.user }}"
+    domain_id=default
+    enabled=True
+  with_items:
+    - "{{ users }}"
+
+- name: Create users
+  os_user:
+    cloud=lowcost
+    state=present
+    name={{ item.user }}
+    password=asdasd
+    domain=default
+  with_items:
+    - "{{ users }}"
+
+- name: Grant the user role to users
+  os_user_role:
+    cloud=lowcost
+    user={{ item.user }}
+    role=user
+    project={{ item.user }}
+  with_items:
+    - "{{ users }}"
+
+- name: Grant the admin user to the projects
+  os_user_role:
+    cloud=lowcost
+    user=admin
+    role=admin
+    project={{ item.user }}
+  with_items:
+    - "{{ users }}"
+
