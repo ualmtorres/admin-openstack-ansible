@@ -28,6 +28,7 @@
     state=present
     name={{ item.project }}
     password={{ item.password }}
+    description={{ item.user }}
     update_password=on_create
     email={{ item.email }}
     default_project={{ item.project }}
