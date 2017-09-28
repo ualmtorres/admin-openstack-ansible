@@ -1,0 +1,10 @@
+network: "your-net"
+cidr: 10.0.0.0/24
+dns:
+  - xxx.yyy.zzz.www
+  - 8.8.8.8
+
+projects:
+  - {project: "a1", user: "A 1", email: "a1@dot.com", password: "callme"}
+  - {project: "a2", user: "A 2", email: "a2@dot.com", password: "mondaymorning"}
+

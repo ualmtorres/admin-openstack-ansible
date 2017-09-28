@@ -1,0 +1,5 @@
+ansible_become_pass: xxxxxx
+
+users:
+  - {user: "blondie", password: "callme"}
+  - {user: "pulp", password: "mondaymorning"}
