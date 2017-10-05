@@ -44,6 +44,16 @@
     project={{ item.project }}
   with_items:
     - "{{ projects }}"
+
+- name: Grant watchers to the projects
+  os_user_role:
+    cloud: lowcost
+    project: "{{ item[0].project }}"
+    user: "{{ item[1].username }}"
+    role: "{{ item[1].role }}"
+  with_nested:
+    - "{{ projects }}"
+    - "{{ watchers }}"
  
 - name: Create the network of the project
   os_network:
@@ -78,3 +88,26 @@
     - "{{ projects }}"
  
 
+- name: Apply quotas
+  os_quota:
+    cloud: lowcost
+    name: "{{ item.project }}"
+    instances: " {{ quota.instances}} "
+    cores: " {{ quota.cores}} "
+    ram: " {{ quota.ram }} "
+    gigabytes: " {{ quota.gigabytes }} "
+    backups: " {{ quota.backups }} "
+    backup_gigabytes: " {{ quota.backup_gigabytes }} "
+    floatingip: " {{ quota.floatingip }} "
+    gigabytes_types:
+      gigabytes_lvm: " {{ quota.gigabytes_lvm }} "
+    snapshots: " {{ quota.snapshots }} "
+    snapshots_types:
+      snapshots_lvm: " {{ quota.snapshots_lvm }} "
+    volumes: " {{ quota.volumes}} "
+    volumes_types:
+      volumes_lvm: " {{ quota.volumes_lvm }} "
+  with_items:
+    - "{{ projects }}"
+  when: item.quota == "present"
+     

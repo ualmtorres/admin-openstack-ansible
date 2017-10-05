@@ -1,10 +1,32 @@
-network: "your-net"
+network: "lowcost-net"
 cidr: 10.0.0.0/24
 dns:
-  - xxx.yyy.zzz.www
+  - 150.214.156.2
   - 8.8.8.8
 
-projects:
-  - {project: "a1", user: "A 1", email: "a1@dot.com", password: "callme"}
-  - {project: "a2", user: "A 2", email: "a2@dot.com", password: "mondaymorning"}
+#Set state to absent for the default quote
+quota: {
+  state: present,
+  instances: 4, 
+  cores: 4,
+  ram: 10240, 
+  gigabytes: 60,
+  backups: 0,
+  backup_gigabytes: 0,
+  floatingip: 2,
+  gigabytes_lvm: 60,
+  snapshots: 0,
+  snapshots_lvm: 0,
+  volumes: 2,
+  volumes_lvm: 2
+}
 
+watchers: 
+  - {username: "zzzz", role: "user"}
+  - {username: "admin", role: "admin"}
+
+# Create project and a user for the project. Username mateches with project name.
+# quota value may be present to apply defined quota or absent to use default quota
+projects:
+  - {project: "xxx", user: "Tim Tomn", email: "xxx@gmail.com", password: "ppp", quota: "present"}
+  - {project: "yyy", user: "John Doe", email: "yyy@gmail.com", password: "ppp", quota: "absent"}
